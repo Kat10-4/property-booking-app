@@ -2,6 +2,7 @@
 import { onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { usePropertiesStore } from '../stores/store'
+import DatePicker from '@/components/DatePicker.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -52,7 +53,14 @@ const goToReservation = () => {
         </div>
       </div>
 
-      <button @click="goToReservation" class="book-btn">Book This Property</button>
+      <!-- Date Range Picker -->
+      <div class="date-picker-section">
+        <h3>Select your dates</h3>
+        <div class="date-input-wrapper">
+          <DatePicker :disabledDates="bookedDates" @dates-selected="handleDates" />
+        </div>
+        <button @click="goToReservation" class="book-btn">Book This Property</button>
+      </div>
     </div>
   </div>
 </template>
