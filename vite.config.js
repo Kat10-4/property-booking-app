@@ -9,18 +9,37 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
-  // Log environment variables for debugging
-  console.log('🔧 Vite Config - Mode:', mode)
-  console.log('🔧 Vite Config - Environment variables:')
-  console.log('🔧 VITE_APP_BASE_URL:', env.VITE_APP_BASE_URL || '❌ Not set')
-  console.log('🔧 VITE_APP_CLIENT_ID:', env.VITE_APP_CLIENT_ID ? '✅ Set' : '❌ Missing')
-  console.log('🔧 VITE_APP_CLIENT_SECRET:', env.VITE_APP_CLIENT_SECRET ? '✅ Set' : '❌ Missing')
-
   return {
     plugins: [vue(), vueJsx(), vueDevTools()],
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
+    },
+    server: {
+      port: 5173,
+      open: true,
+      proxy: {
+        '/v1': {
+          target: env.VITE_APP_BASE_URL,
+          changeOrigin: true,
+          secure: false,
+          // Добавим логгирование для отладки
+          configure: (proxy, _options) => {
+            proxy.on('proxyReq', (proxyReq, req, _res) => {
+              console.log(
+                '🔄 PROXY WORKS',
+                req.method,
+                req.url,
+                '->',
+                `${env.VITE_APP_BASE_URL}${req.url}`,
+              )
+            })
+            proxy.on('error', (err, req, res) => {
+              console.log('❌ PROXY ERROR:', err)
+            })
+          },
+        },
       },
     },
   }

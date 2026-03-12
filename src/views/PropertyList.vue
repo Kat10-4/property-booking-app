@@ -8,9 +8,7 @@ const router = useRouter()
 const store = usePropertiesStore()
 
 onMounted(async () => {
-  console.log('🔄 Component mounted, fetching properties...')
   await store.fetchProperties()
-  console.log('✅ Fetch complete, properties:', store.properties)
 })
 
 const goToProperty = (propertyId) => {

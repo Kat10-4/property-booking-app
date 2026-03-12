@@ -2,7 +2,7 @@ class TokenService {
   constructor() {
     this.TOKEN = null
     this.TOKEN_URL = '/accessTokens'
-    this.TOKEN_KEY = 'hostaway_token'
+    this.TOKEN_KEY = 'accessTokens'
   }
 
   setToken(token) {
