@@ -1,4 +1,4 @@
-export class TokenService {
+class TokenService {
   constructor() {
     this.TOKEN = null
     this.TOKEN_URL = '/accessTokens'
@@ -11,9 +11,7 @@ export class TokenService {
   }
 
   getToken() {
-    const token = localStorage.getItem(this.TOKEN_KEY)
-    this.TOKEN = token
-    return token
+    return localStorage.getItem(this.TOKEN_KEY)
   }
 
   deleteToken() {
@@ -21,3 +19,5 @@ export class TokenService {
     return localStorage.removeItem(this.TOKEN_KEY)
   }
 }
+
+export default new TokenService()

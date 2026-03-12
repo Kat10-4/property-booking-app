@@ -3,7 +3,7 @@ import TokenService from './token'
 
 // Create axios instance
 const instance = axios.create({
-  baseURL: process.env.VUE_APP_BASE_URL,
+  baseURL: import.meta.env.VITE_APP_BASE_URL,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
     'Cache-control': 'no-cache',
@@ -14,6 +14,8 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     const token = TokenService.getToken()
+    console.log('VITE_APP_BASE_URL:', import.meta.env.VITE_APP_BASE_URL)
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
@@ -40,8 +42,8 @@ instance.interceptors.response.use(
         'https://api.hostaway.com/v1/accessTokens',
         new URLSearchParams({
           grant_type: 'client_credentials',
-          client_id: process.env.VUE_APP_CLIENT_ID,
-          client_secret: process.env.VUE_APP_CLIENT_SECRET,
+          client_id: import.meta.env.VITE_APP_CLIENT_ID,
+          client_secret: import.meta.env.VITE_APP_CLIENT_SECRET,
           scope: 'general',
         }),
         {

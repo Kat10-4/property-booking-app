@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { hostawayApi } from '@/services/hostawayApi'
 
 export const usePropertiesStore = defineStore('properties', {
   state: () => ({
@@ -22,8 +23,11 @@ export const usePropertiesStore = defineStore('properties', {
       this.loading = true
       this.error = null
       try {
+        const response = await hostawayApi.getListings()
+        this.properties = response.data.result
+        console.log(this.properties)
       } catch (error) {
-        this.error = error.response?.data?.message || 'Failed to fetch properties'
+        this.error = error.response?.data?.message || 'fetch property failed'
       } finally {
         this.loading = false
       }

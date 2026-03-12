@@ -1,4 +1,5 @@
 <script setup>
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePropertiesStore } from '../stores/store'
 import PropertyCard from '../components/PropertyCard.vue'
@@ -6,8 +7,11 @@ import PropertyCard from '../components/PropertyCard.vue'
 const router = useRouter()
 const store = usePropertiesStore()
 
-// Log to see what's in the store (for debugging)
-console.log('Properties in store:', store.properties)
+onMounted(async () => {
+  console.log('🔄 Component mounted, fetching properties...')
+  await store.fetchProperties()
+  console.log('✅ Fetch complete, properties:', store.properties)
+})
 
 const goToProperty = (propertyId) => {
   console.log('Navigating to property:', propertyId)
@@ -42,9 +46,6 @@ const goToProperty = (propertyId) => {
     </div>
 
     <!-- Show message if no properties -->
-    <div v-if="!store.loading && store.properties.length === 0" class="no-properties">
-      No properties available at the moment.
-    </div>
   </div>
 </template>
 
