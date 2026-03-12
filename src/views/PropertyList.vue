@@ -12,8 +12,6 @@ onMounted(async () => {
 })
 
 const goToProperty = (propertyId) => {
-  console.log('Navigating to property:', propertyId)
-  // Set the current property in store before navigating
   store.setCurrentProperty(propertyId)
   router.push(`/propertyItem/${propertyId}`)
 }
@@ -42,8 +40,6 @@ const goToProperty = (propertyId) => {
         @click="goToProperty"
       />
     </div>
-
-    <!-- Show message if no properties -->
   </div>
 </template>
 
