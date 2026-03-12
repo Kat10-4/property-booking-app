@@ -1,6 +1,6 @@
 export class TokenService {
   constructor() {
-    this.TOKEN = ''
+    this.TOKEN = null
     this.TOKEN_URL = '/accessTokens'
     this.TOKEN_KEY = 'hostaway_token'
   }
@@ -17,7 +17,7 @@ export class TokenService {
   }
 
   deleteToken() {
-    this.TOKEN = ''
+    this.TOKEN = null
     return localStorage.removeItem(this.TOKEN_KEY)
   }
 }
