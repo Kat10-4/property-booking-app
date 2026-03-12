@@ -1,5 +1,7 @@
 <script setup>
-defineProps({
+import OptimizedImage from './OptimizedImage.vue'
+
+const props = defineProps({
   property: {
     type: Object,
     required: true,
@@ -12,14 +14,8 @@ defineEmits(['click']) //say to the parent component that it was 'clicked'
 <template>
   <div class="property-card" @click="$emit('click', property.id)">
     <div class="image-placeholder">
-      <img
-        v-if="property.listingImages[0].url"
-        :src="property.listingImages[0].url"
-        :alt="property.name"
-      />
-      <div v-else class="no-image">🏠</div>
+      <OptimizedImage :listingImages="property.listingImages" :name="property.name" />
     </div>
-
     <h3>{{ property.name }}</h3>
     <p class="location">📍 {{ property.address }}</p>
     <p class="price">💰 ${{ property.price }}/night</p>
