@@ -3,6 +3,7 @@ import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePropertiesStore } from '../stores/store'
 import PropertyCard from '../components/PropertyCard.vue'
+import { ROUTE_PATHS } from '@/router/routes'
 
 const router = useRouter()
 const store = usePropertiesStore()
@@ -13,7 +14,7 @@ onMounted(async () => {
 
 const goToProperty = (propertyId) => {
   store.setCurrentProperty(propertyId)
-  router.push(`/propertyItem/${propertyId}`)
+  router.push(ROUTE_PATHS.PROPERTY_ITEM(propertyId))
 }
 </script>
 

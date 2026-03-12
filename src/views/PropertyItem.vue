@@ -1,25 +1,27 @@
 <script setup>
 import { onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { ROUTE_PATHS } from '@/router/routes'
 import { usePropertiesStore } from '../stores/store'
 import DatePicker from '@/components/DatePicker.vue'
+import AmenitiesList from '@/components/AmenitiesList.vue'
 
 const route = useRoute()
 const router = useRouter()
 const store = usePropertiesStore()
+const propertyId = route.params.id
 
 onMounted(() => {
-  const id = route.params.id
-  store.setCurrentProperty(id)
+  store.setCurrentProperty(propertyId)
 })
 
 const goBack = () => {
   store.clearCurrentProperty()
-  router.push('/')
+  router.push(ROUTE_PATHS.PROPERTY_LIST)
 }
 
 const goToReservation = () => {
-  router.push('/reservation/propertyId')
+  router.push(ROUTE_PATHS.RESERVATION(propertyId))
 }
 </script>
 
@@ -35,22 +37,21 @@ const goToReservation = () => {
     </div>
 
     <div v-else-if="store.currentProperty" class="property-details">
-      <h1>{{ store.currentProperty.title }}</h1>
+      <h1>{{ store.currentProperty.name }}</h1>
 
       <div class="details-card">
-        <p><strong>📍 Location:</strong> {{ store.currentProperty.location }}</p>
+        <p><strong>📍 Location:</strong> {{ store.currentProperty.address }}</p>
         <p><strong>💰 Price:</strong> ${{ store.currentProperty.price }}/night</p>
-        <p><strong>👥 Max guests:</strong> {{ store.currentProperty.maxGuests }}</p>
+        <p><strong>👥 Max guests:</strong> {{ store.currentProperty.personCapacity }}</p>
         <p><strong>📝 Description:</strong> {{ store.currentProperty.description }}</p>
-
-        <div v-if="store.currentProperty.amenities" class="amenities">
-          <strong>Amenities:</strong>
-          <ul>
-            <li v-for="amenity in store.currentProperty.amenities" :key="amenity">
-              {{ amenity }}
-            </li>
-          </ul>
-        </div>
+        <AmenitiesList
+          v-if="store.currentProperty.listingAmenities"
+          :items="store.currentProperty.listingAmenities"
+          title="Amenities:"
+          :initial-visible="4"
+          item-key="id"
+          display-name="amenityName"
+        />
       </div>
 
       <!-- Date Range Picker -->
