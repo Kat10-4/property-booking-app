@@ -25,7 +25,6 @@ export const usePropertiesStore = defineStore('properties', {
       try {
         const response = await hostawayApi.getListings()
         this.properties = response.data.result
-        console.log('my properties', this.properties)
       } catch (error) {
         this.error = error.response?.data?.message || 'fetch property failed'
       } finally {
