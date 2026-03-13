@@ -3,14 +3,12 @@ import { onMounted } from 'vue'
 import flatpickr from 'flatpickr'
 import 'flatpickr/dist/flatpickr.css'
 
-// const props = defineProps({
-//   disabledDates:{
-//     type:Array
-//   },
-//    datesSelected:{
-
-//    }
-// })
+const props = defineProps({
+  disabledDates: {
+    type: Array,
+  },
+  datesSelected: {},
+})
 
 onMounted(() => {
   flatpickr('#datepicker', {})

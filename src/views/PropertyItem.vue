@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ROUTE_PATHS } from '@/router/routes'
 import { usePropertiesStore } from '../stores/store'
@@ -10,6 +10,10 @@ const route = useRoute()
 const router = useRouter()
 const store = usePropertiesStore()
 const propertyId = route.params.id
+
+const loadingCalendar = ref(false)
+const calendarData = ref(null)
+const selectedDates = ref(null)
 
 onMounted(() => {
   store.setCurrentProperty(propertyId)
@@ -57,6 +61,7 @@ const goToReservation = () => {
       <!-- Date Range Picker -->
       <div class="date-picker-section">
         <h3>Select your dates</h3>
+        <div v-if="loadingCalendar" class="calendar-loading">Loading availability...</div>
         <div class="date-input-wrapper">
           <DatePicker :disabledDates="bookedDates" @dates-selected="handleDates" />
         </div>
