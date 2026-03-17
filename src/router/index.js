@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import propertyChildRoutes from './childRoutes/propertyChildRoutes'
-import { ROUTE_NAMES } from './routes'
+import reservationChildRoutes from './childRoutes/reservationChildRoutes'
 import MainLayout from '../layouts/MainLayout.vue'
+import ReservationLayout from '../layouts/reservationLayout.vue'
 
 const DEFAULT_PAGE_TITLE = 'Property Rentals'
 
 //componets imports
 const NotFound = () => import('../views/NotFound.vue')
-const ReservationForm = () => import('../views/ReservationForm.vue')
 
 const routes = [
   {
@@ -17,12 +17,8 @@ const routes = [
   },
   {
     path: '/reservation/:id',
-    name: ROUTE_NAMES.RESERVATION,
-    component: ReservationForm,
-    meta: {
-      title: 'Book Property',
-      requiresAuth: false,
-    },
+    component: ReservationLayout,
+    children: reservationChildRoutes(),
   },
 
   // 404 fallback
