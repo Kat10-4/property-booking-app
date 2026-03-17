@@ -6,6 +6,11 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  isBooking: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 })
 
 defineEmits(['click']) //say to the parent component that it was 'clicked'

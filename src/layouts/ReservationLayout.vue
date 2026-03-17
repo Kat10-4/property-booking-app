@@ -1,9 +1,42 @@
-<!-- layouts/ReservationLayout.vue -->
+<script setup>
+import { useRouter, useRoute } from 'vue-router'
+import { ROUTE_PATHS, ROUTE_NAMES } from '../router/routes'
+import { usePropertiesStore } from '../stores/store'
+import { computed } from 'vue'
+import PropertyCard from '@/components/PropertyCard.vue'
+
+const router = useRouter()
+const route = useRoute()
+const store = usePropertiesStore()
+
+// Go back to property list
+const goBack = () => {
+  router.push({ name: ROUTE_NAMES.PROPERTY_LIST })
+}
+
+// Go back to the current property
+const goToProperty = (propertyId) => {
+  router.push(ROUTE_PATHS.PROPERTY_ITEM(propertyId))
+}
+
+// // Determine current step based on route
+// const currentStep = computed(() => {
+//   if (route.path.includes('payment')) return 2
+//   if (route.path.includes('confirm')) return 3
+//   return 1
+// })
+
+// // Show progress only on certain steps
+// const showProgress = computed(() => {
+//   return !route.path.includes('complete')
+// })
+</script>
+
 <template>
   <div class="reservation-layout">
     <header class="reservation-header">
       <div class="header-content">
-        <button @click="goBack" class="back-button">← Back to Property</button>
+        <button @click="goBack" class="back-button">← Back to Property List</button>
         <h1>Complete Your Reservation</h1>
         <div class="header-progress" v-if="showProgress">
           <span class="step" :class="{ active: currentStep >= 1 }">1. Details</span>
@@ -15,19 +48,7 @@
 
     <main class="reservation-main">
       <!-- Property summary card (optional) -->
-      <div v-if="store.currentProperty" class="property-summary">
-        <img
-          v-if="store.currentProperty.image"
-          :src="store.currentProperty.image"
-          :alt="store.currentProperty.name"
-          class="property-image"
-        />
-        <div class="property-info">
-          <h3>{{ store.currentProperty.name }}</h3>
-          <p>{{ store.currentProperty.address }}</p>
-          <p class="price">${{ store.currentProperty.price }}/night</p>
-        </div>
-      </div>
+      <PropertyCard :property="store.currentProperty" @click="goToProperty" />
 
       <!-- This renders the current reservation step -->
       <router-view v-slot="{ Component }">
@@ -42,34 +63,6 @@
     </footer>
   </div>
 </template>
-
-<script setup>
-import { useRouter, useRoute } from 'vue-router'
-import { usePropertiesStore } from '../stores/store'
-import { computed } from 'vue'
-
-const router = useRouter()
-const route = useRoute()
-const store = usePropertiesStore()
-
-const goBack = () => {
-  router.back() // Go back to previous page
-  // Or if you want to go specifically to property:
-  // router.push(`/propertyItem/${store.currentProperty?.id}`)
-}
-
-// Determine current step based on route
-const currentStep = computed(() => {
-  if (route.path.includes('payment')) return 2
-  if (route.path.includes('confirm')) return 3
-  return 1
-})
-
-// Show progress only on certain steps
-const showProgress = computed(() => {
-  return !route.path.includes('complete')
-})
-</script>
 
 <style scoped>
 .reservation-layout {
@@ -160,41 +153,6 @@ const showProgress = computed(() => {
   display: grid;
   grid-template-columns: 300px 1fr;
   gap: 2rem;
-}
-
-.property-summary {
-  background: white;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  height: fit-content;
-}
-
-.property-image {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 4px;
-  margin-bottom: 1rem;
-}
-
-.property-info h3 {
-  margin: 0 0 0.5rem 0;
-  color: #2d3748;
-  font-size: 1.1rem;
-}
-
-.property-info p {
-  margin: 0.25rem 0;
-  color: #718096;
-  font-size: 0.9rem;
-}
-
-.property-info .price {
-  color: #4caf50;
-  font-weight: bold;
-  font-size: 1rem;
-  margin-top: 0.5rem;
 }
 
 .reservation-footer {
