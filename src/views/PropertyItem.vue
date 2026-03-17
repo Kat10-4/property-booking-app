@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ROUTE_PATHS } from '@/router/routes'
+import { ROUTE_PATHS, ROUTE_NAMES } from '@/router/routes'
 import { usePropertiesStore } from '../stores/store'
 import DatePicker from '@/components/DatePicker.vue'
 import AmenitiesList from '@/components/AmenitiesList.vue'
@@ -12,8 +12,8 @@ const store = usePropertiesStore()
 const propertyId = route.params.id
 
 const loadingCalendar = ref(false)
-const calendarData = ref(null)
-const selectedDates = ref(null)
+// const calendarData = ref(null)
+// const selectedDates = ref(null)
 
 onMounted(() => {
   store.setCurrentProperty(propertyId)
@@ -21,7 +21,7 @@ onMounted(() => {
 
 const goBack = () => {
   store.clearCurrentProperty()
-  router.push(ROUTE_PATHS.PROPERTY_LIST)
+  router.push({ name: ROUTE_NAMES.PROPERTY_LIST })
 }
 
 const goToReservation = () => {
@@ -63,7 +63,7 @@ const goToReservation = () => {
         <h3>Select your dates</h3>
         <div v-if="loadingCalendar" class="calendar-loading">Loading availability...</div>
         <div class="date-input-wrapper">
-          <DatePicker :disabledDates="bookedDates" @dates-selected="handleDates" />
+          <!-- <DatePicker :disabledDates="bookedDates" @dates-selected="handleDates" /> -->
         </div>
         <button @click="goToReservation" class="book-btn">Book This Property</button>
       </div>

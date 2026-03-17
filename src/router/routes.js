@@ -6,9 +6,6 @@ export const ROUTE_NAMES = {
 
 export const ROUTE_PATHS = {
   PROPERTY_LIST: ['/propertyList', '/properties', '/listings'],
-  PROPERTY_ITEM: (id) => ({
-    name: `${ROUTE_NAMES.PROPERTY_LIST}.${ROUTE_NAMES.PROPERTY_ITEM}`,
-    params: { id },
-  }),
+  PROPERTY_ITEM: (id) => `/propertyItem/${id}`,
   RESERVATION: (id) => `/reservation/${id}`,
 }

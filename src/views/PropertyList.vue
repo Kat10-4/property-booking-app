@@ -10,6 +10,7 @@ const store = usePropertiesStore()
 
 onMounted(async () => {
   await store.fetchProperties()
+  router.push(ROUTE_PATHS.PROPERTY_LIST)
 })
 
 const goToProperty = (propertyId) => {
